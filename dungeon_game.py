@@ -177,7 +177,7 @@ def draw_map(player, monster, door, monster1, monster2, monster3, monster4, mons
         print(output, end=line_end)
 
 
-def move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5):
+def move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5, wins, losses):
     possible_moves = ['LEFT', 'RIGHT', 'UP', 'DOWN']
     x, y = monster
     check_boundry(possible_moves, x, y)
@@ -208,29 +208,31 @@ def move_monster(monster, player, start_time, name, door, monster1, monster2, mo
                                         Time Alive: {}
                         Died because of a monster that lives under my bed
                                         """.format(name, hms_string(time.time() - start_time)))
+        losses +=1
         if input('Play again? [Y/n] '.lower()) != 'n':
-            game_loop()
+            game_loop(name, wins, losses)
+        print('Thanks for playing, see you next time!')
         sys.exit()
     return monster
 
 
-def game_loop():
+def game_loop(name, wins, losses):
     hp = 100
-    name = input('What is your username?     ')
     monster, monster1, monster2, monster3, monster4, monster5, door, player = get_locations()
     start_time = time.time()
     playing = True
     while playing:
         clear_screen()
-        monster = move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5)
-        monster1 = move_monster(monster1, player, start_time, name, door, monster, monster2, monster3, monster4, monster5)
-        monster2 = move_monster(monster2, player, start_time, name, door, monster, monster1, monster3, monster4, monster5)
-        monster3 = move_monster(monster3, player, start_time, name, door, monster, monster1, monster2, monster4, monster5)
-        monster4 = move_monster(monster4, player, start_time, name, door, monster, monster1, monster2, monster3, monster5)
-        monster5 = move_monster(monster5, player, start_time, name, door, monster, monster1, monster2, monster3, monster4)
+        monster = move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5, wins, losses)
+        monster1 = move_monster(monster1, player, start_time, name, door, monster, monster2, monster3, monster4, monster5, wins, losses)
+        monster2 = move_monster(monster2, player, start_time, name, door, monster, monster1, monster3, monster4, monster5, wins, losses)
+        monster3 = move_monster(monster3, player, start_time, name, door, monster, monster1, monster2, monster4, monster5, wins, losses)
+        monster4 = move_monster(monster4, player, start_time, name, door, monster, monster1, monster2, monster3, monster5, wins, losses)
+        monster5 = move_monster(monster5, player, start_time, name, door, monster, monster1, monster2, monster3, monster4, wins, losses)
 
         draw_map(player, monster, door, monster1, monster2, monster3, monster4, monster5)
         valid_moves = get_moves(player)
+        print('Wins: {} Losses: {}'.format(wins, losses))
         print(' ** You are currently at {}, {}. **'.format(player, name))
         print(' ** You can move {}. **'.format(', '.join(valid_moves)))
         print(" ** Enter 'Quit' to quit, {}. **".format(name))
@@ -258,6 +260,7 @@ def game_loop():
                 Died because of a monster that lives under my bed
                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
             if player == monster1:
                 print('\n ** Oh no! The monster got you, {}, better luck next time! ** \n'.format(name))
                 input("""
@@ -267,6 +270,7 @@ def game_loop():
                                 Died because of a monster that lives under my bed
                                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
             if player == monster2:
                 print('\n ** Oh no! The monster got you, {}, better luck next time! ** \n'.format(name))
                 input("""
@@ -276,6 +280,7 @@ def game_loop():
                                 Died because of a monster that lives under my bed
                                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
             if player == monster3:
                 print('\n ** Oh no! The monster got you, {}, better luck next time! ** \n'.format(name))
                 input("""
@@ -285,6 +290,7 @@ def game_loop():
                 Died because of a monster that lives under my bed
                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
             if player == monster4:
                 print('\n ** Oh no! The monster got you, {}, better luck next time! ** \n'.format(name))
                 input("""
@@ -294,6 +300,7 @@ def game_loop():
                 Died because of a monster that lives under my bed
                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
             if player == monster5:
                 print('\n ** Oh no! The monster got you, {}, better luck next time! ** \n'.format(name))
                 input("""
@@ -303,11 +310,13 @@ def game_loop():
                 Died because of a monster that lives under my bed
                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
             if player == door:
                 clear_screen()
                 if playing != False:
                     print('\n ** Congratulations! You have escaped the dungeon {}! ** \n  ** It only took you {}!'.format(name, hms_string(time.time() - start_time)))
                     playing = False
+                    wins += 1
         else:
             input('\n **  Walls are hard! Don\'t run into them {}!  ** \n'.format(name))
             hp -= 5
@@ -319,9 +328,10 @@ def game_loop():
       Died because of too much concussions
                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
+                losses += 1
     else:
         if input('Play again? [Y/n] '.lower()) != 'n':
-            game_loop()
+            game_loop(name, wins, losses)
         else:
             print(' \n ** See you next time! ** \n ')
 
@@ -330,4 +340,7 @@ clear_screen()
 print('Welcome to the Dungeon!')
 input('Press enter/return to start the game!')
 clear_screen()
-game_loop()
+name = input('What is your username?     ')
+wins = 0
+losses = 0
+game_loop(name, wins, losses)
