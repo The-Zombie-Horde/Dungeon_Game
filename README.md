@@ -5,7 +5,6 @@ You are thrown in a dungeon with monsters, and you've forgotten how you got ther
 Start the game to learn how to play!
 
 Open your terminal:
-  cd Downloads/dungeon_game-master/
-  python3 dungeon_game.py
+  cd Downloads/dungeon_game-master && python3 dungeon_game.py
 
 Enjoy!
