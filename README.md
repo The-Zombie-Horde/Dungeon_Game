@@ -3,3 +3,7 @@ You are thrown in a dungeon with monsters, and you've forgotten how you got ther
 
 
 Start the game to learn how to play!
+
+python3 dungeon_game.py
+
+Enjoy!
