@@ -9,6 +9,6 @@ Start the game to learn how to play!
 Open your terminal:
 Copy this directory and play!
 
-  cd Downloads/dungeon_game-master && python3 dungeon_game.py
+  `cd Downloads/dungeon_game-master && python3 dungeon_game.py`
 
 Enjoy!
