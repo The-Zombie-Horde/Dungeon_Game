@@ -3,7 +3,7 @@ import random
 import time
 import sys
 
-
+#positions on map
 CELLS = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0), (9, 0), (10, 0), (11, 0), (12, 0), (13, 0), (14, 0), (15, 0), (16, 0), (17, 0), (18, 0), (19, 0),
          (0, 1), (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1),
          (0, 2), (1, 2), (2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (7, 2), (8, 2), (9, 2), (10, 2), (11, 2), (12, 2), (13, 2), (14, 2), (15, 2), (16, 2), (17, 2), (18, 2), (19, 2),
@@ -27,10 +27,12 @@ CELLS = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (5, 0), (6, 0), (7, 0), (8, 0),
          ]
 
 
+#clear screen
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+#checks to make sure monsters don't leave the map
 def check_boundry(possible_moves, monster_x, monster_y):
     if monster_x == 0:
         possible_moves.remove('LEFT')
@@ -179,6 +181,7 @@ def draw_map(player, monster, door, monster1, monster2, monster3, monster4, mons
         print(output, end=line_end)
 
 
+#moves the monster
 def move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, wins, losses):
     possible_moves = ['LEFT', 'RIGHT', 'UP', 'DOWN']
     x, y = monster
@@ -222,6 +225,7 @@ def move_monster(monster, player, start_time, name, door, monster1, monster2, mo
     return monster
 
 
+#RUNS THE game
 def game_loop(name, wins, losses):
     hp = 100
     monster, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, door, player = get_locations()
