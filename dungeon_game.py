@@ -4,12 +4,14 @@ import time
 import sys
 
 CELLS = []
-for i in range(0,20):
-    for j in range(0,20):
-        CELLS.append((j,i))
+for i in range(0, 20):
+    for j in range(0, 20):
+        CELLS.append((j, i))
+
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
+
 
 def check_boundry(possible_moves, monster_x, monster_y):
     if monster_x == 0:
@@ -50,6 +52,7 @@ def hms_string(sec_elapsed):
 def get_locations():
     return random.sample(CELLS, 12)
 
+
 def move_player(player, move):
     x, y = player
     if move == 'A':
@@ -61,6 +64,7 @@ def move_player(player, move):
     if move == 'S':
         y += 1
     return x, y
+
 
 def check_monster(possible_moves, x, y, other_monster):
     x1, y1 = other_monster
@@ -93,8 +97,9 @@ def get_moves(player):
     return moves
 
 
-def draw_map(player, monster, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9):
-    print(' -'*20)
+def draw_map(player, monster, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8,
+             monster9):
+    print(' -' * 20)
     tile = '|{}'
     for cell in CELLS:
         x, y = cell
@@ -106,7 +111,8 @@ def draw_map(player, monster, door, monster1, monster2, monster3, monster4, mons
                 output = tile.format('M')
             elif cell == door:
                 output = tile.format('X')
-            elif cell == monster1 or cell == monster2 or cell == monster3 or cell == monster4 or cell == monster5 or cell == monster6 or cell == monster7 or cell == monster8 or cell == monster9:
+            elif cell == monster1 or cell == monster2 or cell == monster3 or cell == monster4 or cell == monster5 or \
+                    cell == monster6 or cell == monster7 or cell == monster8 or cell == monster9:
                 output = tile.format('M')
             else:
                 output = tile.format('_')
@@ -118,19 +124,21 @@ def draw_map(player, monster, door, monster1, monster2, monster3, monster4, mons
                 output = tile.format('M|')
             elif cell == door:
                 output = tile.format('X|')
-            elif cell == monster1 or cell == monster2 or cell == monster3 or cell == monster4 or cell == monster5 or cell == monster6 or cell == monster7 or cell == monster8 or cell == monster9:
+            elif cell == monster1 or cell == monster2 or cell == monster3 or cell == monster4 or cell == monster5 or \
+                    cell == monster6 or cell == monster7 or cell == monster8 or cell == monster9:
                 output = tile.format('M|')
             else:
                 output = tile.format('_|')
         print(output, end=line_end)
 
 
-def move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, wins, losses):
+def move_monster(monster, player, start_time, greg, door, monster1, monster2, monster3, monster4, monster5, monster6,
+                 monster7, monster8, monster9, lims, chicken):
     possible_moves = ['LEFT', 'RIGHT', 'UP', 'DOWN']
     x, y = monster
     possible_moves = check_boundry(possible_moves, x, y)
     possible_moves = check_door(possible_moves, x, y, door)
-    list_of_monsters = [monster1,monster2,monster3,monster4,monster5,monster6,monster7,monster8,monster9]
+    list_of_monsters = [monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9]
     for monsters in list_of_monsters:
         check_monster(possible_moves, x, y, monsters)
 
@@ -152,10 +160,10 @@ def move_monster(monster, player, start_time, name, door, monster1, monster2, mo
                                           {}
                                         Time Alive: {}
                         Died because of a monster that lives under my bed
-                                        """.format(name, hms_string(time.time() - start_time)))
-        losses += 1
+                                        """.format(greg, hms_string(time.time() - start_time)))
+        chicken += 1
         if input('Play again? [Y/n] '.lower()) != 'n':
-            game_loop(name, wins, losses)
+            game_loop(name, lims, chicken)
         print('Thanks for playing, see you next time!')
         sys.exit()
     return monster
@@ -163,23 +171,35 @@ def move_monster(monster, player, start_time, name, door, monster1, monster2, mo
 
 def game_loop(name, wins, losses):
     hp = 100
-    monster, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, door, player = get_locations()
+    monster, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, door, player = \
+        get_locations()
     start_time = time.time()
     playing = True
     while playing:
         clear_screen()
-        monster = move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, wins, losses)
-        monster1 = move_monster(monster1, player, start_time, name, door, monster, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9, wins, losses)
-        monster2 = move_monster(monster2, player, start_time, name, door, monster, monster1, monster3, monster4, monster5, monster6, monster7, monster8, monster9, wins, losses)
-        monster3 = move_monster(monster3, player, start_time, name, door, monster, monster1, monster2, monster4, monster5, monster6, monster7, monster8, monster9, wins, losses)
-        monster4 = move_monster(monster4, player, start_time, name, door, monster, monster1, monster2, monster3, monster5, monster6, monster7, monster8, monster9, wins, losses)
-        monster5 = move_monster(monster5, player, start_time, name, door, monster, monster1, monster2, monster3, monster4, monster6, monster7, monster8, monster9, wins, losses)
-        monster6 = move_monster(monster6, player, start_time, name, door, monster, monster1, monster2, monster3, monster4, monster5, monster7, monster8, monster9, wins, losses)
-        monster7 = move_monster(monster7, player, start_time, name, door, monster, monster1, monster2, monster3, monster4, monster5, monster6, monster8, monster9, wins, losses)
-        monster8 = move_monster(monster8, player, start_time, name, door, monster, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster9, wins, losses)
-        monster9 = move_monster(monster9, player, start_time, name, door, monster, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, wins, losses)
+        monster = move_monster(monster, player, start_time, name, door, monster1, monster2, monster3, monster4, monster5
+                               , monster6, monster7, monster8, monster9, wins, losses)
+        monster1 = move_monster(monster1, player, start_time, name, door, monster, monster2, monster3, monster4,
+                                monster5, monster6, monster7, monster8, monster9, wins, losses)
+        monster2 = move_monster(monster2, player, start_time, name, door, monster, monster1, monster3, monster4,
+                                monster5, monster6, monster7, monster8, monster9, wins, losses)
+        monster3 = move_monster(monster3, player, start_time, name, door, monster, monster1, monster2, monster4,
+                                monster5, monster6, monster7, monster8, monster9, wins, losses)
+        monster4 = move_monster(monster4, player, start_time, name, door, monster, monster1, monster2, monster3,
+                                monster5, monster6, monster7, monster8, monster9, wins, losses)
+        monster5 = move_monster(monster5, player, start_time, name, door, monster, monster1, monster2, monster3,
+                                monster4, monster6, monster7, monster8, monster9, wins, losses)
+        monster6 = move_monster(monster6, player, start_time, name, door, monster, monster1, monster2, monster3,
+                                monster4, monster5, monster7, monster8, monster9, wins, losses)
+        monster7 = move_monster(monster7, player, start_time, name, door, monster, monster1, monster2, monster3,
+                                monster4, monster5, monster6, monster8, monster9, wins, losses)
+        monster8 = move_monster(monster8, player, start_time, name, door, monster, monster1, monster2, monster3,
+                                monster4, monster5, monster6, monster7, monster9, wins, losses)
+        monster9 = move_monster(monster9, player, start_time, name, door, monster, monster1, monster2, monster3,
+                                monster4, monster5, monster6, monster7, monster8, wins, losses)
 
-        draw_map(player, monster, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8, monster9)
+        draw_map(player, monster, door, monster1, monster2, monster3, monster4, monster5, monster6, monster7, monster8,
+                 monster9)
         valid_moves = get_moves(player)
         print('Wins: {} Losses: {}'.format(wins, losses))
         print(' ** You are currently at {}, {}. **'.format(player, name))
@@ -188,7 +208,8 @@ def game_loop(name, wins, losses):
         print(' ** X marks the spot, get out of the dungeon as fast as possible {}! **'.format(name))
         print(' ** Watch out for the monsters {}, they will kill you on first sight! **'.format(name))
         print(' ** {}, you are the \'O\' on the dungeon board! **'.format(name))
-        print(' ** Watch out for spelling errors {}, giving wrong commands to your player can cause errors **'.format(name))
+        print(' ** Watch out for spelling errors {}, giving wrong commands to your player can cause errors **'.format(
+            name))
         print(' ** Your current health is {}, keep it as high as possible {}! **'.format(hp, name))
 
         move = input("> ")
@@ -199,7 +220,9 @@ def game_loop(name, wins, losses):
             break
         if move in valid_moves:
             player = move_player(player, move)
-            if player == monster or player == monster1 or player == monster2 or player == monster3 or player == monster4 or player == monster5 or player == monster6 or player == monster7 or player == monster8 or player == monster9:
+            if player == monster or player == monster1 or player == monster2 or player == monster3 or player == \
+                    monster4 or player == monster5 or player == monster6 or player == monster7 or player == \
+                    monster8 or player == monster9:
                 print('\n ** Oh no! The monster got you, {}, better luck next time! ** \n'.format(name))
                 input("""
                                     R.I.P
@@ -211,8 +234,9 @@ def game_loop(name, wins, losses):
                 losses += 1
             if player == door:
                 clear_screen()
-                if playing != False:
-                    print('\n ** Congratulations! You have escaped the dungeon {}! It was pretty easy. ** \n  ** It only took you {}!'.format(name, hms_string(time.time() - start_time)))
+                if playing:
+                    print('\n ** Congratulations! You have escaped the dungeon {}! It was pretty easy. ** \n'
+                          '  ** It only took you {}!'.format(name, hms_string(time.time() - start_time)))
                     playing = False
                     wins += 1
         else:
