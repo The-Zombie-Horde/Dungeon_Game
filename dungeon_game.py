@@ -46,7 +46,7 @@ def hms_string(sec_elapsed):
     h = int(sec_elapsed / (60 * 60))
     m = int((sec_elapsed % (60 * 60)) / 60)
     s = sec_elapsed % 60.
-    return "{}:{:>02}:{:>05.2f}".format(h, m, s)
+    return "{} hours, {:>02} minutes, and {:>05.2f}".format(h, m, s)
 
 
 def get_locations():
@@ -141,7 +141,7 @@ def move_monster(monster, player, start_time, name, door, list_of_mob, wins, los
         input("""
                                           R.I.P
                                         {}
-                                      Time Alive: {}
+                                You only lived for {}
                       Died because of a monster that lives under my bed
                                       """.format(name, hms_string(time.time() - start_time)))
         losses += 1
@@ -186,7 +186,7 @@ def game_loop(name, wins, losses):
                 input("""
                                     R.I.P
                                   {}
-                                Time Alive: {}
+                      You only lived for {}
                         A monster swallowed him whole!
                                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
@@ -206,7 +206,7 @@ def game_loop(name, wins, losses):
                 input("""
                     RIP
                   {}
-            Time Alive: {}
+       You only lived for {}
 How are you dumb enough to hit walls and spell WASD wrong?
                 """.format(name, hms_string(time.time() - start_time)))
                 playing = False
